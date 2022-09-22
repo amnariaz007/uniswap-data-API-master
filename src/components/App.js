@@ -27,6 +27,15 @@ const DAI_QUERY = gql`
   }
 `
 
+// const ETH_QUERY = gql`
+//   query tokens($tokenAddress: Bytes!) {
+//     tokens(where: { id: $tokenAddress }) {
+//       derivedETH
+//       totalLiquidity
+//     }
+//   }
+//   `
+
 const ETH_PRICE_QUERY = gql`
   query bundles {
     bundles(where: { id: "1" }) {
