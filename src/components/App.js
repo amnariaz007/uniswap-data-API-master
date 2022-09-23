@@ -97,7 +97,7 @@ function App() {
                       parseFloat(daiTotalLiquidity).toFixed(0)}
                 </h2>
                 <h2>
-                  Name of Token:{' '}
+                tradeVolumeUSD:{' '}
                   {daiLoading
                     ? 'Loading token data...'
                     : // display the total amount of DAI spread across all pools
