@@ -27,15 +27,6 @@ const DAI_QUERY = gql`
   }
 `
 
-// const ETH_QUERY = gql`
-//   query tokens($tokenAddress: Bytes!) {
-//     tokens(where: { id: $tokenAddress }) {
-//       derivedETH
-//       totalLiquidity
-//     }
-//   }
-//   `
-
 const ETH_PRICE_QUERY = gql`
   query bundles {
     bundles(where: { id: "1" }) {
@@ -48,13 +39,14 @@ function App() {
   const { loading: ethLoading, data: ethPriceData } = useQuery(ETH_PRICE_QUERY)
   const { loading: daiLoading, data: daiData } = useQuery(DAI_QUERY, {
     variables: {
-      tokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f'
+      tokenAddress: '0x6b175474e89094c44da98b954eedeac495271d0f',
     }
   })
 
   const daiPriceInEth = daiData && daiData.tokens[0].derivedETH
   const daiTotalLiquidity = daiData && daiData.tokens[0].totalLiquidity
   const ethPriceInUSD = ethPriceData && ethPriceData.bundles[0].ethPrice
+  const EthTotalLiquidity = ethPriceData && ethPriceData.bundles[0].totalLiquidityETH
 
   return (
     <div>
@@ -84,11 +76,26 @@ function App() {
                       (parseFloat(daiPriceInEth) * parseFloat(ethPriceInUSD)).toFixed(2)}
                 </h2>
                 <h2>
+                  ETH price:{' '}
+                  {ethLoading
+                    ? 'Loading token data...'
+                    : '$' +
+                      // parse responses as floats and fix to 2 decimals
+                      (parseFloat(ethPriceInUSD)).toFixed(2)}
+                </h2>
+                <h2>
                   Dai total liquidity:{' '}
                   {daiLoading
                     ? 'Loading token data...'
                     : // display the total amount of DAI spread across all pools
                       parseFloat(daiTotalLiquidity).toFixed(0)}
+                </h2>
+                <h2>
+                  ETH total liquidity:{' '}
+                  {ethLoading
+                    ? 'Loading Eth data...'
+                    : // display the total amount of Eth spread across all pools
+                      parseFloat(EthTotalLiquidity).toFixed(0)}
                 </h2>
               </div>
             </div>
